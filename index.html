@@ -15,7 +15,6 @@
         }
         .screen { display:none; min-height:100vh; }
         .screen.active { display:block; }
-
         .login-screen { display:flex; justify-content:center; align-items:center; background: radial-gradient(ellipse at center, #1a1a35 0%, #0a0a1a 100%); padding:1rem; }
         .login-card {
             background: rgba(26,26,53,0.9); border:2px solid var(--gold); border-radius:30px;
@@ -41,24 +40,20 @@
         .btn-reset { background:#e67e22; }
         .btn-sound { background:#2c3e50; }
         .btn-leave { background:var(--red); }
-
         .header { text-align:center; padding:0.8rem; background:rgba(0,0,0,0.8); border-bottom:2px solid var(--gold); }
         .header-crown { font-size:2rem; animation:float 2s infinite; }
         .header-title { font-size:1.4rem; color:var(--gold); font-weight:bold; }
         .live-badge { display:inline-block; background:var(--red); padding:0.2rem 0.8rem; border-radius:15px; font-size:0.7rem; animation:pulse 1.5s infinite; }
         @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.6} }
-
         .round-bar { text-align:center; padding:0.6rem; font-size:0.9rem; color:var(--gold); background:rgba(0,0,0,0.6); }
         .r-dots { display:flex; justify-content:center; gap:6px; margin:5px 0; }
         .r-dot { width:12px; height:12px; border-radius:50%; background:#34495e; border:2px solid var(--gold); }
         .r-dot.active { background:var(--gold); animation:glow 0.8s infinite; }
         .r-dot.done { background:var(--green); border-color:var(--green); }
         @keyframes glow { 0%,100%{box-shadow:0 0 6px var(--gold)}50%{box-shadow:0 0 16px var(--gold)} }
-
         .timer-big { text-align:center; font-size:2rem; font-weight:bold; color:var(--gold); padding:0.3rem; }
         .timer-big.urgent { color:var(--red); animation:blink 0.4s infinite; }
         @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.2} }
-
         .arena { display:grid; grid-template-columns:1fr 1fr; gap:0; min-height:50vh; }
         .player-zone {
             position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -73,12 +68,10 @@
         .zone-name { font-size:1rem; font-weight:bold; margin:5px 0; }
         .zone-score { font-size:2.5rem; font-weight:bold; }
         .king-zone .zone-score { color:var(--gold); } .challenger-zone .zone-score { color:var(--blue); }
-
         .mini-game {
             width:100%; min-height:150px; display:flex; align-items:center; justify-content:center;
             border-radius:15px; background:rgba(0,0,0,0.4); padding:0.5rem; margin:5px 0;
         }
-
         .stroop-word { font-size:2.5rem; font-weight:bold; margin:5px 0; text-align:center; }
         .stroop-btns { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:10px; }
         .stroop-btn {
@@ -94,7 +87,6 @@
         .tf-true { background:var(--green); } .tf-false { background:var(--red); }
         .sniper-area { position:relative; width:100%; height:160px; background:rgba(0,0,0,0.3); border-radius:12px; overflow:hidden; }
         .target { position:absolute; border-radius:50%; cursor:pointer; background:radial-gradient(circle, var(--gold), var(--red)); transform:translate(-50%,-50%); box-shadow:0 0 30px rgba(241,196,15,0.8); }
-
         .codebreak-area { display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; }
         .digit-row { display:flex; gap:8px; justify-content:center; }
         .digit-slot { width:55px; height:65px; border-radius:10px; background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.3); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:bold; color:white; cursor:pointer; }
@@ -103,7 +95,6 @@
         .digit-slot.red { background:var(--red); }
         .digit-picker { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
         .digit-btn { width:40px; height:40px; border-radius:8px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:white; font-size:1.2rem; cursor:pointer; }
-
         .controls { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; padding:10px; background:rgba(0,0,0,0.9); border-top:2px solid var(--gold); }
         .hidden { display:none !important; }
         .overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.95); display:flex; justify-content:center; align-items:center; z-index:200; padding:1rem; }
@@ -113,7 +104,6 @@
         .card-desc { font-size:1rem; color:#ecf0f1; line-height:1.6; margin:10px 0; background:rgba(0,0,0,0.3); padding:10px; border-radius:12px; }
         .card-countdown { font-size:3.5rem; font-weight:bold; color:var(--gold); margin:10px 0; }
         .disabled-overlay { position:absolute; top:0; left:0; right:0; bottom:0; z-index:10; background:transparent; pointer-events:none; }
-
         @media (max-width:480px) {
             .arena { grid-template-columns:1fr; }
             .king-zone, .challenger-zone { border:none; border-bottom:1px solid rgba(255,255,255,0.1); }
@@ -195,6 +185,12 @@
             document.addEventListener('touchstart', ()=>Sound.init(), {once:true});
             document.addEventListener('click', ()=>Sound.init(), {once:true});
 
+            function toggleSound() {
+                Sound.muted = !Sound.muted;
+                let btns = [document.getElementById('btnSound'), document.getElementById('btnSoundViewer')];
+                btns.forEach(b => { if (b) b.textContent = Sound.muted ? '🔇' : '🔊'; });
+            }
+
             // ==================== HELPERS ====================
             const shuffle = arr => arr.sort(()=>Math.random()-0.5);
             const rand = (min,max) => Math.floor(Math.random()*(max-min+1))+min;
@@ -240,7 +236,7 @@
             }
 
             // ==================== JOIN / VIEWER ====================
-            window.joinGame = function() {
+            function joinGame() {
                 let name = E('playerNameInput').value.trim();
                 if (!name) return;
                 let finalName = name.startsWith('@') ? name : '@' + name;
@@ -258,15 +254,15 @@
                     E('loginScreen').classList.remove('active');
                     E('waitScreen').classList.add('active');
                 }
-            };
+            }
 
-            window.enterAsViewer = function() {
+            function enterAsViewer() {
                 viewerMode = true;
                 E('loginScreen').classList.remove('active');
                 E('arenaScreen').classList.add('active');
-                if (E('btnStart')) E('btnStart').style.display = 'none';
-                if (E('btnQR')) E('btnQR').style.display = 'none';
-                if (E('btnLeave')) E('btnLeave').style.display = 'none';
+                ['btnStart','btnQR','btnLeave'].forEach(id => {
+                    let el = E(id); if (el) el.style.display = 'none';
+                });
                 E('mainControls').innerHTML = `
                     <button class="btn btn-reset" id="btnResetViewer">🔄 جديد</button>
                     <button class="btn btn-sound" id="btnSoundViewer">🔊</button>
@@ -275,7 +271,7 @@
                 document.getElementById('btnSoundViewer').addEventListener('click', toggleSound);
                 E('kingOverlay').style.display = 'block';
                 E('challengerOverlay').style.display = 'block';
-            };
+            }
 
             // ==================== TUTORIAL ====================
             function showTutorial(idx, cb) {
@@ -302,12 +298,12 @@
                     }
                 }, 1000);
             }
-            window.skipTutorial = function() {
+            function skipTutorial() {
                 clearInterval(state.tutInterval);
                 E('tutorialOverlay').classList.add('hidden');
                 Sound.start();
                 if (state._tutCb) { let f = state._tutCb; state._tutCb = null; f(); }
-            };
+            }
 
             // ==================== STROOP ====================
             function initStroop(zone) { state['stroop'+zone] = { round:0, score:0, bonus:0 }; nextStroop(zone); }
@@ -322,7 +318,6 @@
                 while (opts.length < 4) { let rc = colorList[rand(0,5)]; if (!opts.find(o=>o.name===rc.name)) opts.push(rc); }
                 opts = shuffle(opts);
                 E(zone+'Game').innerHTML = `<div style="text-align:center;"><div class="stroop-word" style="color:${displayColor.code};">${nameColor.name}</div><div class="stroop-btns">${opts.map(c=>`<button class="stroop-btn" style="background:${c.code};">${c.name}</button>`).join('')}</div><div style="color:#95a5a6;margin-top:10px;">${data.round}/${games[0].rounds}</div></div>`;
-                // إضافة listeners
                 let buttons = E(zone+'Game').querySelectorAll('.stroop-btn');
                 buttons.forEach((btn, i) => {
                     btn.addEventListener('click', function() {
@@ -351,11 +346,7 @@
                 let btns = shuffle([...dirs]);
                 E(zone+'Game').innerHTML = `<div style="text-align:center;"><div class="dir-arrow">${d.arrow}</div><div style="font-size:1.3rem;color:var(--gold);">عكس</div><div class="dir-btns">${btns.map(dd=>`<button class="dir-btn">${dd.arrow}</button>`).join('')}</div><div style="color:#95a5a6;">${data.round}/${games[1].rounds}</div></div>`;
                 let buttons = E(zone+'Game').querySelectorAll('.dir-btn');
-                buttons.forEach((btn, i) => {
-                    btn.addEventListener('click', function() {
-                        ansDir(zone, btns[i].name);
-                    });
-                });
+                buttons.forEach((btn, i) => { btn.addEventListener('click', () => ansDir(zone, btns[i].name)); });
             }
             function ansDir(zone, ans) {
                 if (!state.running) return;
@@ -393,7 +384,6 @@
                 html += `<div class="attempts-info">المحاولات: ${data.attempts.length}/12</div></div>`;
                 E(zone+'Game').innerHTML = html;
 
-                // ربط الأحداث
                 E(zone+'Game').querySelectorAll('.digit-slot:not(.locked)').forEach(slot => {
                     slot.addEventListener('click', function() {
                         let idx = parseInt(this.dataset.index);
@@ -417,9 +407,7 @@
                         }
                     });
                 });
-                document.getElementById('submitCodeBtn').addEventListener('click', function() {
-                    submitCode(zone);
-                });
+                document.getElementById('submitCodeBtn').addEventListener('click', () => submitCode(zone));
             }
             function submitCode(zone) {
                 if (!state.running || state.codeBreakWinner) return;
@@ -477,9 +465,7 @@
                 E(zone+'Game').innerHTML = `<div class="sniper-area"><div class="target" id="targetDiv" style="left:${x}%;top:${y}%;width:${size}px;height:${size}px;"><div style="text-align:center;line-height:${size}px;font-size:${size*0.5}px;">🎯</div></div></div><div style="color:#95a5a6;">أهداف: ${data.score}</div>`;
                 data.active = true;
                 data.timeout = setTimeout(() => { if (data.active) { data.active = false; Sound.wrong(); spawnTarget(zone); } }, 2000);
-                document.getElementById('targetDiv').addEventListener('click', function() {
-                    hitTarget(zone);
-                });
+                document.getElementById('targetDiv').addEventListener('click', () => hitTarget(zone));
             }
             function hitTarget(zone) {
                 if (!state.running) return;
@@ -520,17 +506,17 @@
                 E('resultDesc').innerHTML = `النتيجة: 🤴 ${state.kingScore} - ${state.challengerScore} 🗡️`;
                 E('roundResultOverlay').classList.remove('hidden');
             }
-            window.closeRoundResult = function() {
+            function closeRoundResult() {
                 E('roundResultOverlay').classList.add('hidden');
                 state.round++; state.codeBreakWinner = null;
                 if (state.round > 5) { endGame(); return; }
                 state.kingDone = false; state.challengerDone = false;
                 updateDots(); E('roundNum').textContent = state.round;
                 showTutorial(state.round-1, () => startRound());
-            };
+            }
 
             // ==================== GAME FLOW ====================
-            window.startGame = function() {
+            function startGame() {
                 if (state.running || viewerMode) return;
                 Sound.init(); state.running = true; state.round = 1;
                 state.kingScore = 0; state.challengerScore = 0;
@@ -538,10 +524,10 @@
                 state.codeBreakWinner = null;
                 updateScores(); updateDots();
                 E('roundNum').textContent = '1';
-                if (E('btnStart')) E('btnStart').disabled = true;
+                let startBtn = E('btnStart'); if (startBtn) startBtn.disabled = true;
                 gameActive = true;
                 showTutorial(0, () => startRound());
-            };
+            }
             function startRound() {
                 let game = games[state.round-1];
                 state.timeLeft = game.time;
@@ -590,7 +576,7 @@
                 }
                 E('kingName').textContent = players.king.name;
                 E('challengerName').textContent = players.challenger.name;
-                if (E('btnStart')) E('btnStart').disabled = false;
+                let startBtn = E('btnStart'); if (startBtn) startBtn.disabled = false;
                 updateScores();
                 setTimeout(() => showChallengeQR(), 3000);
             }
@@ -605,7 +591,7 @@
                     else if (i+1 < state.round) d.classList.add('done');
                 });
             }
-            window.resetGame = function() {
+            function resetGame() {
                 clearInterval(state.timer); clearInterval(state.tutInterval);
                 clearInterval(state.returnTimer); clearInterval(state.qrTimer);
                 state.running = false; state.round = 0; gameActive = false;
@@ -617,12 +603,12 @@
                 E('kingGame').innerHTML = '<div style="color:var(--gold);">انتظر البدء...</div>';
                 E('challengerGame').innerHTML = '<div style="color:var(--blue);">انتظر البدء...</div>';
                 E('timerDisplay').textContent = '⏱️ 45'; E('timerDisplay').classList.remove('urgent');
-                if (E('btnStart') && !viewerMode) E('btnStart').disabled = false;
-            };
-            window.closeVictory = function() {
+                let startBtn = E('btnStart'); if (startBtn && !viewerMode) startBtn.disabled = false;
+            }
+            function closeVictory() {
                 E('victoryOverlay').classList.add('hidden');
                 resetGame();
-            };
+            }
 
             // ==================== QR & RETURN ====================
             function showChallengeQR() {
@@ -635,9 +621,7 @@
                 state.qrTimer = setInterval(() => { state.qrSeconds--; E('qrTimer').textContent = state.qrSeconds; if (state.qrSeconds<=0) closeQR(); }, 1000);
             }
             function closeQR() { clearInterval(state.qrTimer); E('qrOverlay').classList.add('hidden'); }
-            window.showChallengeQR = showChallengeQR;
-            window.closeQR = closeQR;
-            window.leaveThrone = function() {
+            function leaveThrone() {
                 if (viewerMode) return;
                 if (confirm('مغادرة العرش؟')) {
                     E('returnOverlay').classList.remove('hidden');
@@ -650,19 +634,18 @@
                         if (state.returnSeconds<=0) { clearInterval(state.returnTimer); E('returnOverlay').classList.add('hidden'); replacePlayer(); }
                     }, 1000);
                 }
-            };
+            }
             function replacePlayer() {
                 if (waitingPlayers.length) { players.king.name = waitingPlayers.shift(); E('kingName').textContent = players.king.name; }
                 showChallengeQR();
             }
-            window.attemptReconnect = function() {
+            function attemptReconnect() {
                 clearInterval(state.returnTimer);
                 E('returnOverlay').classList.add('hidden');
                 Sound.start();
-            };
+            }
 
             // ==================== EVENT LISTENERS ====================
-            // ربط الأزرار الرئيسية باستخدام addEventListener
             document.getElementById('joinBtn').addEventListener('click', joinGame);
             document.getElementById('viewerBtn').addEventListener('click', enterAsViewer);
             if (E('btnStart')) E('btnStart').addEventListener('click', startGame);
@@ -675,11 +658,6 @@
             document.getElementById('closeVictoryBtn').addEventListener('click', closeVictory);
             document.getElementById('closeQRBtn').addEventListener('click', closeQR);
             document.getElementById('reconnectBtn').addEventListener('click', attemptReconnect);
-            function toggleSound() {
-                Sound.muted = !Sound.muted;
-                let btn = E('btnSound') || document.getElementById('btnSoundViewer');
-                if (btn) btn.textContent = Sound.muted ? '🔇' : '🔊';
-            }
 
             window.addEventListener('online', () => {
                 if (!E('returnOverlay').classList.contains('hidden')) attemptReconnect();
@@ -693,7 +671,7 @@
                 }
             });
 
-            console.log('✅ لعبة تحدي العرش جاهزة بالكامل');
+            console.log('✅ جميع الأزرار تعمل الآن');
         })();
     </script>
 </body>
